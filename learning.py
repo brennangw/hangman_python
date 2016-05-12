@@ -5,6 +5,14 @@ class GuessingGame:
     def __init__(self, master):
         self.master = master
         master.title("Hangman Game")
+        path = "words.txt"
+        words = []
+        with open(path) as f:
+            lines = f.readlines()
+        for line in lines:
+            line = line.rstrip()
+            words.append(line)
+
 
         self.secret_word = "python"
         self.guess = None
