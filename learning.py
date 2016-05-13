@@ -17,6 +17,7 @@ class GuessingGame:
         self.answer = [' '] * len(self.secret_word)
         self.guess = ''
         self.num_guesses = 0
+        self.num_wrong_guesses = 0
 
         self.message = "Guess a Letter"
         self.label_text = StringVar()
@@ -40,7 +41,7 @@ class GuessingGame:
             return True
         try:
             if (len(new_text) == 1 and str.isalpha(new_text)):
-                self.guess = new_text
+                self.guess = new_text.lower()
                 print("guess " + self.guess + " has been validated" )
                 return True
             return False;
@@ -51,27 +52,33 @@ class GuessingGame:
     def guess_letter(self):
         print("guess letter")
         print(str(self.guess))
-
+        self.num_guesses += 1
         i = 0
+        atLeastOneMatch = False
         while (i < len(self.secret_word)):
             if (self.secret_word[i] == self.guess):
                 self.answer[i] == self.secret_word[i]
+                atLeastOneMatch = True
             i += 1
-
-
-
-        self.num_guesses += 1
-
-        if self.guess is None:
-            self.message = "Guess a letter from a to z"
-
-        elif self.guess == self.secret_number:
+        if (self.secret_word == self.answer):  #win
             suffix = '' if self.num_guesses == 1 else 'es'
             self.message = "You guessed the word after %d guess%s." % (self.num_guesses, suffix)
             self.guess_button.configure(state=DISABLED)
             self.reset_button.configure(state=NORMAL)
+        elif self.num_wrong_guesses > 5:       #lose
+            suffix = '' if self.num_guesses == 1 else 'es'
+            self.message = "You failed to guess the word after %d total guess%s and %d wrong guess%s." % (self.num_guesses, suffix, self.num_wrong_guesses)
+            self.message += "\nThe word was %s." % (self.secret_word.toString())
+            self.guess_button.configure(state=DISABLED)
+            self.reset_button.configure(state=NORMAL)
+        else:                                  #keep playing
+            self.message = "Guess a letter from a to z"
+            if not atLeastOneMatch:
+                self.num_wrong_guesses += 1
+            self.num_guesses += 1
 
-        self.message = "Wrong!!!"
+        if self.guess is None:
+            self.message = "Guess a letter from a to z"
 
         self.label_text.set(self.message)
 
