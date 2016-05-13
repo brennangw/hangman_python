@@ -12,10 +12,10 @@ class GuessingGame:
         for line in lines:
             line = line.rstrip()
             words.append(line)
-
-
-        self.secret_word = "python"
-        self.guess = None
+        selection = random.randint(-1,len(words)-1)
+        self.secret_word = list(words[selection])
+        self.answer = [' '] * len(self.secret_word)
+        self.guess = ''
         self.num_guesses = 0
 
         self.message = "Guess a Letter"
@@ -39,15 +39,27 @@ class GuessingGame:
             self.guess = None
             return True
         try:
-            if (len(new_text) == 1):
+            if (len(new_text) == 1 and str.isalpha(new_text)):
+                self.guess = new_text
+                print("guess " + self.guess + " has been validated" )
                 return True
             return False;
-
 
         except ValueError:
             return False
 
     def guess_letter(self):
+        print("guess letter")
+        print(str(self.guess))
+
+        i = 0
+        while (i < len(self.secret_word)):
+            if (self.secret_word[i] == self.guess):
+                self.answer[i] == self.secret_word[i]
+            i += 1
+
+
+
         self.num_guesses += 1
 
         if self.guess is None:
@@ -66,7 +78,7 @@ class GuessingGame:
     def reset(self):
         self.entry.delete(0, END)
         self.secret_word = "python"
-        self.guess = 0
+        self.guess = ''
         self.num_guesses = 0
 
         self.message = "Reset: Guess a Letter"
