@@ -1,11 +1,11 @@
 import random
-from tkinter import Tk, Label, Button, Entry, StringVar, DISABLED, NORMAL, END, W, E
+from tkinter import *
 
 
 class GuessingGame:
     def __init__(self, master):
         self.master = master
-        master.minsize(width=666, height=666)
+        master.minsize(width=100, height=100)
         master.title("Hangman Game")
         path = "words.txt"
         self.words = []
@@ -28,6 +28,8 @@ class GuessingGame:
         self.label_text = StringVar()
         self.label_text.set(self.message)
         self.label = Label(master, textvariable=self.label_text)
+        self.figureImage1 = PhotoImage(file="1.gif")
+        self.figure = Label(master,image=self.figureImage1)
 
         vcmd = master.register(self.validate) # we have to wrap the command
         self.entry = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
@@ -44,6 +46,7 @@ class GuessingGame:
         self.guess_button.grid(row=3, column=0)
         self.reset_button.grid(row=3, column=1)
         self.answer_display_string_label.grid(row=1, column=0, columnspan=2, sticky=W+E)
+        self.figure.grid(row=4,column=0, columnspan=2, sticky=W+E)
 
     def set_answer_display_string(self):
         self.answer_display_string = ""
@@ -103,6 +106,7 @@ class GuessingGame:
         self.answer_display_string_text.set(self.answer_display_string)
         self.entry.delete(0, END)
         self.label_text.set(self.message)
+        self.figure(self.figureImage1)
 
     def reset(self):
         selection = random.randint(-1,len(self.words)-1)
@@ -120,8 +124,9 @@ class GuessingGame:
         self.answer_display_string_text.set(self.answer_display_string)
         self.guess_button.configure(state=NORMAL)
         self.reset_button.configure(state=DISABLED)
+        self.figure(self.figureImage1)
 
 root = Tk()
 my_gui = GuessingGame(root)
-root.resizable(width=False, height=False)
+#root.resizable(width=False, height=False)
 root.mainloop()
