@@ -77,6 +77,7 @@ class GuessingGame:
 
     def guess_letter(self):
         print("guess letter")
+
         print(str(self.guess))
         self.num_guesses += 1
         i = 0
@@ -86,29 +87,28 @@ class GuessingGame:
                 self.answer[i] = str(self.secret_word[i])
                 atLeastOneMatch = True
             i += 1
+        if not atLeastOneMatch:
+            self.num_wrong_guesses += 1
         self.set_answer_display_string()
         if (self.secret_word == self.answer):  #win
             suffix = '' if self.num_guesses == 1 else 'es'
             self.message = "You guessed the word after %d guess%s." % (self.num_guesses, suffix)
             self.guess_button.configure(state=DISABLED)
             self.reset_button.configure(state=NORMAL)
-        elif self.num_wrong_guesses > 5:       #lose
+        elif self.num_wrong_guesses > 3:       #lose
             suffix = '' if self.num_guesses == 1 else 'es'
             self.message = "You failed to guess the word after %d total guess%s and %d wrong guess%s." % (self.num_guesses, suffix, self.num_wrong_guesses, suffix)
-            self.message += "\nThe word was %s." % (str(self.secret_word))
-            self.num_guesses = 0
-            self.num_wrong_guesses = 0
+            self.message += "\nThe word was %s." % (''.join(self.secret_word))
             self.answer = []
             self.guess_button.configure(state=DISABLED)
             self.reset_button.configure(state=NORMAL)
         else:                                  #keep playing
             self.message = "Guess a letter from a to z"
-            if not atLeastOneMatch:
-                self.num_wrong_guesses += 1
+
 
         if self.guess is None:
             self.message = "Guess a letter from a to z"
-
+        print("number of wrong guesses: " + str(self.num_wrong_guesses))
         #self.current_figure = PhotoImage(self.figureImage2)
         #self.figure.configure(image = self.figureImage2)
         self.answer_display_string_text.set(self.answer_display_string)
