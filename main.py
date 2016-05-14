@@ -1,7 +1,6 @@
 import random
 from tkinter import *
 
-
 class HangManGame:
     def __init__(self, master):
         self.master = master
@@ -49,13 +48,6 @@ class HangManGame:
         self.answer_display_string_label.pack()
         self.figure.pack()
 
-        # self.label.grid(row=0, column=0, columnspan=2)
-        # self.entry.grid(row=2, column=0, columnspan=2)
-        # self.guess_button.grid(row=3, column=0)
-        # self.reset_button.grid(row=3, column=1)
-        # self.answer_display_string_label.grid(row=1, column=0, columnspan=2)
-        # self.figure.grid(row=4,column=0, columnspan=2)
-
     def set_image(self):
         file_string = str(self.num_wrong_guesses + 1) + ".gif"
         self.figureImage = PhotoImage(file=file_string)
@@ -75,7 +67,6 @@ class HangManGame:
         try:
             if (len(new_text) == 1 and str.isalpha(new_text)):
                 self.guess = new_text.lower()
-                print("guess " + self.guess + " has been validated" )
                 return True
             return False;
 
@@ -83,9 +74,6 @@ class HangManGame:
             return False
 
     def guess_letter(self):
-        print("guess letter")
-
-        print(str(self.guess))
         self.num_guesses += 1
         i = 0
         atLeastOneMatch = False
@@ -115,7 +103,6 @@ class HangManGame:
 
         if self.guess is None:
             self.message = "Guess a letter from a to z"
-        print("number of wrong guesses: " + str(self.num_wrong_guesses))
         #self.current_figure = PhotoImage(self.figureImage2)
         #self.figure.configure(image = self.figureImage2)
         self.answer_display_string_text.set(self.answer_display_string)
