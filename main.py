@@ -135,6 +135,7 @@ class HangManGame:
         self.num_guesses = 0
         self.message = "Reset: Guess a Letter"
         self.label_text.set(self.message)
+        self.set_image()
         self.history_display_string_text.set(self.history_display_string)
         self.answer_display_string_text.set(self.answer_display_string)
         self.guess_button.configure(state=NORMAL)
