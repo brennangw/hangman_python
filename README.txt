@@ -1,5 +1,5 @@
 5/13/2016
-Final Project - Hangman Game
+Project - Hangman Game
 Brennan Wallace - bgw2119
 Stanislav Peceny - skp2140
 Everything has been implemented as provided in the project proposal.
@@ -13,3 +13,9 @@ http://effbot.org/tkinterbook
 https://www.youtube.com/watch?v=O12aT42okYE&index=13&list=PL6gx4Cwl9DGBwibXFtPtflztSNPGuIB_d
 Various stack overflow python posts for small python issues.
 And of course class notes.
+
+To run:
+Set up with:
+    pip install -r requirements.txt
+Run with
+    python hangman.py

@@ -2,7 +2,7 @@ import random
 from tkinter import *
 
 
-class GuessingGame:
+class HangManGame:
     def __init__(self, master):
         self.master = master
         master.minsize(width=800, height=500)
@@ -141,7 +141,7 @@ class GuessingGame:
         self.reset_button.configure(state=DISABLED)
 
 root = Tk()
-my_gui = GuessingGame(root)
+my_gui = HangManGame(root)
 root.geometry("600x500")
 root.resizable(width=False, height=False)
 root.mainloop()
