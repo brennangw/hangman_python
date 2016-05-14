@@ -29,3 +29,22 @@ Then we ran:
 And the project ran correctly.
 Following these steps should yield the same result for anyone else.
 Also, the new virtual environment is probably not required.
+
+Motivation for the project:
+
+Brennan and I wanted to learn how to use the graphical interface offered by Python - tkinter.
+Hence we decided to create a hangman game where knowledge of tkinter could be utilized.
+
+Modules used (along with any relevant information about installing dependencies if necessary, i.e.if you didn't use pip)
+No need to install anything.  We are using tkinter for the game to display window.
+
+A rundown of how your program works, how you structured your code, any interesting design decisions you made:
+
+At the end of the program we initialize a window and call a class which represents the hangman game created.
+Consequently, the entire program is dependent on a reset function where everything is updated.
+
+Problems/Obstacles:
+
+We had difficulties including images in the tkinter window.
+Furthermore, it was a challenge to update the pictures as the game progressed.
+We inserted the pictures using a label and further created a helper function to help us reset the pictures.
