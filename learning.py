@@ -29,7 +29,6 @@ class GuessingGame:
         self.label_text.set(self.message)
         self.label = Label(master, textvariable=self.label_text)
         self.figureImage1 = PhotoImage(file="1.gif")
-        self.figureImage2 = PhotoImage(file="2.gif")
         self.current_figure = self.figureImage1
         self.figure = Label(master,image=self.current_figure)
 
@@ -49,6 +48,11 @@ class GuessingGame:
         self.reset_button.grid(row=3, column=1)
         self.answer_display_string_label.grid(row=1, column=0, columnspan=2, sticky=W+E)
         self.figure.grid(row=4,column=0, columnspan=2, sticky=W+E)
+
+    def set_image(self):
+        file_string = str(self.num_wrong_guesses + 1) + ".gif"
+        self.figureImage = PhotoImage(file=file_string)
+        self.figure.configure(image = self.figureImage)
 
     def set_answer_display_string(self):
         self.answer_display_string = ""
@@ -106,9 +110,10 @@ class GuessingGame:
             self.message = "Guess a letter from a to z"
 
         #self.current_figure = PhotoImage(self.figureImage2)
-        self.figure.configure(image = self.figureImage2)
+        #self.figure.configure(image = self.figureImage2)
         self.answer_display_string_text.set(self.answer_display_string)
         self.entry.delete(0, END)
+        self.set_image()
         self.label_text.set(self.message)
 
     def reset(self):
