@@ -29,7 +29,9 @@ class GuessingGame:
         self.label_text.set(self.message)
         self.label = Label(master, textvariable=self.label_text)
         self.figureImage1 = PhotoImage(file="1.gif")
-        self.figure = Label(master,image=self.figureImage1)
+        self.figureImage2 = PhotoImage(file="2.gif")
+        self.current_figure = self.figureImage1
+        self.figure = Label(master,image=self.current_figure)
 
         vcmd = master.register(self.validate) # we have to wrap the command
         self.entry = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
@@ -103,10 +105,11 @@ class GuessingGame:
         if self.guess is None:
             self.message = "Guess a letter from a to z"
 
+        #self.current_figure = PhotoImage(self.figureImage2)
+        self.figure.configure(image = self.figureImage2)
         self.answer_display_string_text.set(self.answer_display_string)
         self.entry.delete(0, END)
         self.label_text.set(self.message)
-        self.figure(self.figureImage1)
 
     def reset(self):
         selection = random.randint(-1,len(self.words)-1)
@@ -124,7 +127,6 @@ class GuessingGame:
         self.answer_display_string_text.set(self.answer_display_string)
         self.guess_button.configure(state=NORMAL)
         self.reset_button.configure(state=DISABLED)
-        self.figure(self.figureImage1)
 
 root = Tk()
 my_gui = GuessingGame(root)
