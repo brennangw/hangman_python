@@ -5,7 +5,7 @@ from tkinter import *
 class GuessingGame:
     def __init__(self, master):
         self.master = master
-        master.minsize(width=100, height=100)
+        master.minsize(width=800, height=500)
         master.title("Hangman Game")
         path = "words.txt"
         self.words = []
@@ -42,12 +42,19 @@ class GuessingGame:
         self.answer_display_string_text.set(self.answer_display_string)
         self.answer_display_string_label = Label(master, textvariable=self.answer_display_string_text)
 
-        self.label.grid(row=0, column=0, columnspan=2, sticky=W+E)
-        self.entry.grid(row=2, column=0, columnspan=2, sticky=W+E)
-        self.guess_button.grid(row=3, column=0)
-        self.reset_button.grid(row=3, column=1)
-        self.answer_display_string_label.grid(row=1, column=0, columnspan=2, sticky=W+E)
-        self.figure.grid(row=4,column=0, columnspan=2, sticky=W+E)
+        self.label.pack()
+        self.entry.pack()
+        self.guess_button.pack()
+        self.reset_button.pack()
+        self.answer_display_string_label.pack()
+        self.figure.pack()
+
+        # self.label.grid(row=0, column=0, columnspan=2)
+        # self.entry.grid(row=2, column=0, columnspan=2)
+        # self.guess_button.grid(row=3, column=0)
+        # self.reset_button.grid(row=3, column=1)
+        # self.answer_display_string_label.grid(row=1, column=0, columnspan=2)
+        # self.figure.grid(row=4,column=0, columnspan=2)
 
     def set_image(self):
         file_string = str(self.num_wrong_guesses + 1) + ".gif"
@@ -98,7 +105,7 @@ class GuessingGame:
         elif self.num_wrong_guesses > 3:       #lose
             suffix = '' if self.num_guesses == 1 else 'es'
             self.message = "You failed to guess the word after %d total guess%s and %d wrong guess%s." % (self.num_guesses, suffix, self.num_wrong_guesses, suffix)
-            self.message += "\nThe word was %s." % (''.join(self.secret_word))
+            self.message += " The word was %s." % (''.join(self.secret_word))
             self.answer = []
             self.guess_button.configure(state=DISABLED)
             self.reset_button.configure(state=NORMAL)
@@ -135,5 +142,6 @@ class GuessingGame:
 
 root = Tk()
 my_gui = GuessingGame(root)
-#root.resizable(width=False, height=False)
+root.geometry("600x500")
+root.resizable(width=False, height=False)
 root.mainloop()
