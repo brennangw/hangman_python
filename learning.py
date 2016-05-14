@@ -14,12 +14,15 @@ class GuessingGame:
             words.append(line)
         selection = random.randint(-1,len(words)-1)
         self.secret_word = list(words[selection])
-        self.answer = [' '] * len(self.secret_word)
+        self.answer = ['_'] * len(self.secret_word)
         self.guess = ''
         self.num_guesses = 0
         self.num_wrong_guesses = 0
 
         self.message = "Guess a Letter"
+        self.answer_display_string = "__"
+        self.set_answer_display_string()
+
         self.label_text = StringVar()
         self.label_text.set(self.message)
         self.label = Label(master, textvariable=self.label_text)
@@ -30,10 +33,22 @@ class GuessingGame:
         self.guess_button = Button(master, text="Guess Letter", command=self.guess_letter)
         self.reset_button = Button(master, text="Reset", command=self.reset, state=DISABLED)
 
+        self.answer_display_string_text = StringVar()
+        self.answer_display_string_text.set(self.answer_display_string)
+        self.answer_display_string_label = Label(master, textvariable=self.answer_display_string_text)
+
         self.label.grid(row=0, column=0, columnspan=2, sticky=W+E)
         self.entry.grid(row=1, column=0, columnspan=2, sticky=W+E)
         self.guess_button.grid(row=2, column=0)
         self.reset_button.grid(row=2, column=1)
+        self.answer_display_string_label.grid(row=3, column=0, columnspan=2, sticky=W+E)
+
+    def set_answer_display_string(self):
+        self.answer_display_string = ""
+        for c in self.answer:
+            self.answer_display_string += c
+            self.answer_display_string += ' '
+        self.answer_display_string.rstrip()
 
     def validate(self, new_text):
         if not new_text: # the field is being cleared
@@ -57,9 +72,10 @@ class GuessingGame:
         atLeastOneMatch = False
         while (i < len(self.secret_word)):
             if (self.secret_word[i] == self.guess):
-                self.answer[i] == self.secret_word[i]
+                self.answer[i] = str(self.secret_word[i])
                 atLeastOneMatch = True
             i += 1
+        self.set_answer_display_string()
         if (self.secret_word == self.answer):  #win
             suffix = '' if self.num_guesses == 1 else 'es'
             self.message = "You guessed the word after %d guess%s." % (self.num_guesses, suffix)
@@ -69,6 +85,9 @@ class GuessingGame:
             suffix = '' if self.num_guesses == 1 else 'es'
             self.message = "You failed to guess the word after %d total guess%s and %d wrong guess%s." % (self.num_guesses, suffix, self.num_wrong_guesses)
             self.message += "\nThe word was %s." % (self.secret_word.toString())
+            self.num_guesses = 0
+            self.num_wrong_guesses = 0
+            self.answer = []
             self.guess_button.configure(state=DISABLED)
             self.reset_button.configure(state=NORMAL)
         else:                                  #keep playing
@@ -80,17 +99,21 @@ class GuessingGame:
         if self.guess is None:
             self.message = "Guess a letter from a to z"
 
+        self.answer_display_string_text.set(self.answer_display_string)
         self.label_text.set(self.message)
 
     def reset(self):
-        self.entry.delete(0, END)
-        self.secret_word = "python"
+        selection = random.randint(-1,len(words)-1)
+        self.secret_word = list(words[selection])
+        self.answer = ['_'] * len(self.secret_word)
         self.guess = ''
         self.num_guesses = 0
-
+        self.num_wrong_guesses = 0
+        self.entry.delete(0, END)
+        self.guess = ''
+        self.num_guesses = 0
         self.message = "Reset: Guess a Letter"
         self.label_text.set(self.message)
-
         self.guess_button.configure(state=NORMAL)
         self.reset_button.configure(state=DISABLED)
 
