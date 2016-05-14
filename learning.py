@@ -1,19 +1,21 @@
 import random
 from tkinter import Tk, Label, Button, Entry, StringVar, DISABLED, NORMAL, END, W, E
 
+
 class GuessingGame:
     def __init__(self, master):
         self.master = master
+        master.minsize(width=666, height=666)
         master.title("Hangman Game")
         path = "words.txt"
-        words = []
+        self.words = []
         with open(path) as f:
             lines = f.readlines()
         for line in lines:
             line = line.rstrip()
-            words.append(line)
-        selection = random.randint(-1,len(words)-1)
-        self.secret_word = list(words[selection])
+            self.words.append(line)
+        selection = random.randint(-1,len(self.words)-1)
+        self.secret_word = list(self.words[selection])
         self.answer = ['_'] * len(self.secret_word)
         self.guess = ''
         self.num_guesses = 0
@@ -38,10 +40,10 @@ class GuessingGame:
         self.answer_display_string_label = Label(master, textvariable=self.answer_display_string_text)
 
         self.label.grid(row=0, column=0, columnspan=2, sticky=W+E)
-        self.entry.grid(row=1, column=0, columnspan=2, sticky=W+E)
-        self.guess_button.grid(row=2, column=0)
-        self.reset_button.grid(row=2, column=1)
-        self.answer_display_string_label.grid(row=3, column=0, columnspan=2, sticky=W+E)
+        self.entry.grid(row=2, column=0, columnspan=2, sticky=W+E)
+        self.guess_button.grid(row=3, column=0)
+        self.reset_button.grid(row=3, column=1)
+        self.answer_display_string_label.grid(row=1, column=0, columnspan=2, sticky=W+E)
 
     def set_answer_display_string(self):
         self.answer_display_string = ""
@@ -83,8 +85,8 @@ class GuessingGame:
             self.reset_button.configure(state=NORMAL)
         elif self.num_wrong_guesses > 5:       #lose
             suffix = '' if self.num_guesses == 1 else 'es'
-            self.message = "You failed to guess the word after %d total guess%s and %d wrong guess%s." % (self.num_guesses, suffix, self.num_wrong_guesses)
-            self.message += "\nThe word was %s." % (self.secret_word.toString())
+            self.message = "You failed to guess the word after %d total guess%s and %d wrong guess%s." % (self.num_guesses, suffix, self.num_wrong_guesses, suffix)
+            self.message += "\nThe word was %s." % (str(self.secret_word))
             self.num_guesses = 0
             self.num_wrong_guesses = 0
             self.answer = []
@@ -94,18 +96,19 @@ class GuessingGame:
             self.message = "Guess a letter from a to z"
             if not atLeastOneMatch:
                 self.num_wrong_guesses += 1
-            self.num_guesses += 1
 
         if self.guess is None:
             self.message = "Guess a letter from a to z"
 
         self.answer_display_string_text.set(self.answer_display_string)
+        self.entry.delete(0, END)
         self.label_text.set(self.message)
 
     def reset(self):
-        selection = random.randint(-1,len(words)-1)
-        self.secret_word = list(words[selection])
+        selection = random.randint(-1,len(self.words)-1)
+        self.secret_word = list(self.words[selection])
         self.answer = ['_'] * len(self.secret_word)
+        self.set_answer_display_string()
         self.guess = ''
         self.num_guesses = 0
         self.num_wrong_guesses = 0
@@ -114,9 +117,11 @@ class GuessingGame:
         self.num_guesses = 0
         self.message = "Reset: Guess a Letter"
         self.label_text.set(self.message)
+        self.answer_display_string_text.set(self.answer_display_string)
         self.guess_button.configure(state=NORMAL)
         self.reset_button.configure(state=DISABLED)
 
 root = Tk()
 my_gui = GuessingGame(root)
+root.resizable(width=False, height=False)
 root.mainloop()
