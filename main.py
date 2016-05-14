@@ -16,13 +16,19 @@ class HangManGame:
         selection = random.randint(-1,len(self.words)-1)
         self.secret_word = list(self.words[selection])
         self.answer = ['_'] * len(self.secret_word)
+        self.history = "history:"
         self.guess = ''
         self.num_guesses = 0
         self.num_wrong_guesses = 0
 
         self.message = "Guess a Letter"
         self.answer_display_string = "__"
+        self.history_display_string = "history:"
         self.set_answer_display_string()
+
+        self.history_display_string_text = StringVar()
+        self.history_display_string_text.set(self.history_display_string)
+        self.history_display_string_label = Label(master, textvariable=self.history_display_string_text)
 
         self.label_text = StringVar()
         self.label_text.set(self.message)
@@ -47,6 +53,7 @@ class HangManGame:
         self.reset_button.pack()
         self.answer_display_string_label.pack()
         self.figure.pack()
+        self.history_display_string_label.pack()
 
     def set_image(self):
         file_string = str(self.num_wrong_guesses + 1) + ".gif"
@@ -77,6 +84,9 @@ class HangManGame:
         self.num_guesses += 1
         i = 0
         atLeastOneMatch = False
+        if self.guess is not None:
+            self.history_display_string += " "
+            self.history_display_string += self.guess
         while (i < len(self.secret_word)):
             if (self.secret_word[i] == self.guess):
                 self.answer[i] = str(self.secret_word[i])
@@ -106,6 +116,7 @@ class HangManGame:
         #self.current_figure = PhotoImage(self.figureImage2)
         #self.figure.configure(image = self.figureImage2)
         self.answer_display_string_text.set(self.answer_display_string)
+        self.history_display_string_text.set(self.history_display_string)
         self.entry.delete(0, END)
         self.set_image()
         self.label_text.set(self.message)
@@ -114,6 +125,7 @@ class HangManGame:
         selection = random.randint(-1,len(self.words)-1)
         self.secret_word = list(self.words[selection])
         self.answer = ['_'] * len(self.secret_word)
+        self.history_display_string = "history"
         self.set_answer_display_string()
         self.guess = ''
         self.num_guesses = 0
@@ -123,6 +135,7 @@ class HangManGame:
         self.num_guesses = 0
         self.message = "Reset: Guess a Letter"
         self.label_text.set(self.message)
+        self.history_display_string_text.set(self.history_display_string)
         self.answer_display_string_text.set(self.answer_display_string)
         self.guess_button.configure(state=NORMAL)
         self.reset_button.configure(state=DISABLED)
